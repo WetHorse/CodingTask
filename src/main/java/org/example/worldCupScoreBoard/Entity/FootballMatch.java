@@ -2,9 +2,13 @@ package org.example.worldCupScoreBoard.Entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class FootballMatch {
 
+    private static final AtomicLong idCounter = new AtomicLong(1);
+
+    private final Long id;
     private final String homeTeam;
     private final String awayTeam;
     private int homeScore;
@@ -22,6 +26,12 @@ public class FootballMatch {
             throw new IllegalArgumentException("Away team can't be null or empty");
         }
 
+        if(homeTeam.equals(awayTeam)){
+            throw new IllegalArgumentException("Teams can't be the same");
+        }
+
+        this.id = idCounter.getAndIncrement();
+
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = 0;
@@ -31,6 +41,10 @@ public class FootballMatch {
 
         this.matchActive = true;
 
+    }
+
+    private Long getId() {
+        return id;
     }
 
     public String getHomeTeam() {
@@ -45,23 +59,37 @@ public class FootballMatch {
         return homeScore;
     }
 
+    public int getAwayScore() {
+        return awayScore;
+    }
+
+    public LocalDateTime getStartTime() {
+
+        return startTime;
+    }
+
+    public boolean isMatchActive() {
+        return matchActive;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         FootballMatch that = (FootballMatch) o;
-        return homeScore == that.homeScore && awayScore == that.awayScore && matchActive == that.matchActive && Objects.equals(homeTeam, that.homeTeam) && Objects.equals(awayTeam, that.awayTeam) && Objects.equals(startTime, that.startTime);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homeTeam, awayTeam, homeScore, awayScore, startTime, matchActive);
+        return Objects.hashCode(id);
     }
 
     @Override
     public String toString() {
         return "FootballMatch{" +
-                "homeTeam='" + homeTeam + '\'' +
+                "id=" + id +
+                ", homeTeam='" + homeTeam + '\'' +
                 ", awayTeam='" + awayTeam + '\'' +
                 ", homeScore=" + homeScore +
                 ", awayScore=" + awayScore +
