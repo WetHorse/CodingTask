@@ -43,7 +43,7 @@ public class FootballMatch {
 
     }
 
-    private Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -63,6 +63,11 @@ public class FootballMatch {
         return awayScore;
     }
 
+    public int getTotalScore() {
+        return homeScore + awayScore;
+    }
+
+
     public LocalDateTime getStartTime() {
 
         return startTime;
@@ -71,6 +76,23 @@ public class FootballMatch {
     public boolean isMatchActive() {
         return matchActive;
     }
+
+    public void finishMatch() {
+        this.matchActive = false;
+    }
+
+    public void updateScore(int homeScore, int awayScore) {
+        if(!matchActive){
+            throw new IllegalStateException("Match is not active");
+        }
+        if(homeScore < 0 || awayScore < 0){
+            throw new IllegalArgumentException("Score can't be negative");
+        }
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+    }
+
+
 
 
     @Override
