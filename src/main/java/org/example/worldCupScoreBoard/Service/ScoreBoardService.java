@@ -66,7 +66,7 @@ public class ScoreBoardService {
         footballMatchRepository.delete(footballMatch);
     }
 
-    public void endFootballMatchByIt(Long id){
+    public void endFootballMatchById(Long id){
         FootballMatch footballMatch = footballMatchRepository.findById(id).orElseThrow(() -> new MatchNotFoundException("Match not found with id " + id));
         footballMatch.finishMatch();
         footballMatchRepository.delete(footballMatch);

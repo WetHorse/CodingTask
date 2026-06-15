@@ -105,7 +105,7 @@ public class FootballMatchTest {
         @DisplayName("Drop exception when updating finished match")
         void dropExceptionWhenUpdatingFinishedMatch() {
             FootballMatch footballMatch = scoreBoardService.startFootballMatch("Belarus", "Lithuania");
-            scoreBoardService.endFootballMatchByIt(footballMatch.getId());
+            scoreBoardService.endFootballMatchById(footballMatch.getId());
 
             MatchNotFoundException matchNotFoundException = assertThrows(MatchNotFoundException.class, () -> scoreBoardService.updateScoreBoard(5, 3, footballMatch.getId()));
             assertEquals("Match not found with id " + footballMatch.getId(), matchNotFoundException.getMessage());
@@ -136,7 +136,7 @@ public class FootballMatchTest {
         @DisplayName("Match should be active")
         void matchIsActive() {
             FootballMatch footballMatch = scoreBoardService.startFootballMatch("Belarus", "Lithuania");
-            scoreBoardService.endFootballMatchByIt(footballMatch.getId());
+            scoreBoardService.endFootballMatchById(footballMatch.getId());
 
             assertFalse(footballMatch.isMatchActive());
             assertTrue(footballMatchRepository.findById(footballMatch.getId()).isEmpty());
@@ -145,7 +145,7 @@ public class FootballMatchTest {
         @Test
         @DisplayName("Drop exception when game is not finished")
         void dropExceptionWhenGameIsNotFinished() {
-            MatchNotFoundException matchNotFoundException = assertThrows(MatchNotFoundException.class, () -> scoreBoardService.endFootballMatchByIt(999L));
+            MatchNotFoundException matchNotFoundException = assertThrows(MatchNotFoundException.class, () -> scoreBoardService.endFootballMatchById(999L));
             assertEquals("Match not found with id 999", matchNotFoundException.getMessage());
         }
 
@@ -156,7 +156,7 @@ public class FootballMatchTest {
             FootballMatch footballMatch1 = scoreBoardService.startFootballMatch("Czech Republic", "Latvia");
 
             assertEquals(2, footballMatchRepository.getAllActiveMatches().size());
-            scoreBoardService.endFootballMatchByIt(footballMatch0.getId());
+            scoreBoardService.endFootballMatchById(footballMatch0.getId());
 
             assertEquals(1, footballMatchRepository.getAllActiveMatches().size());
             assertEquals(footballMatch1.getId(), footballMatchRepository.getAllActiveMatches().get(0).getId());
@@ -221,7 +221,7 @@ public class FootballMatchTest {
             FootballMatch match1 = scoreBoardService.startFootballMatch("Germany", "Russia");
             scoreBoardService.updateScoreBoard(7, 1, match1.getId());
 
-            scoreBoardService.endFootballMatchByIt(match0.getId());
+            scoreBoardService.endFootballMatchById(match0.getId());
 
             List<FootballMatch> summary = scoreBoardService.summarizeTheScoreBoard();
 
@@ -277,7 +277,7 @@ public class FootballMatchTest {
             assertEquals(7, finalSummary.get(0).getHomeScore());
 
 
-            scoreBoardService.endFootballMatchByIt(footballMatch1.getId());
+            scoreBoardService.endFootballMatchById(footballMatch1.getId());
 
             List<FootballMatch> afterFinish = scoreBoardService.summarizeTheScoreBoard();
             assertEquals(2, afterFinish.size());

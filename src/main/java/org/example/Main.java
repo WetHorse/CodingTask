@@ -51,7 +51,7 @@ public class Main {
 
         //finish football match
         System.out.println("Match: " + footballMatch5.getHomeTeam() + " " + footballMatch5.getAwayTeam() + "match finished\n");
-        scoreBoardService.endFootballMatchByIt(footballMatch1.getId());
+        scoreBoardService.endFootballMatchById(footballMatch1.getId());
 
         //summarize again
 

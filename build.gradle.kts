@@ -1,9 +1,15 @@
 plugins {
-    id("java")
+    id("java-library")
+    id("maven-publish")
 }
 
 group = "org.example"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
 
 repositories {
     mavenCentral()
@@ -12,9 +18,16 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }
