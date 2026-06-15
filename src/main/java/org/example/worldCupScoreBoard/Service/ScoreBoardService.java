@@ -6,6 +6,7 @@ import org.example.worldCupScoreBoard.Repository.FootballMatchRepository;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ScoreBoardService {
 
@@ -57,7 +58,7 @@ public class ScoreBoardService {
     public List<FootballMatch> summarizeTheScoreBoard() {
         return footballMatchRepository.getAllActiveMatches().stream()
                 .sorted(Comparator.comparingInt(FootballMatch::getTotalScore)
-                        .reversed().thenComparing(Comparator.comparing(FootballMatch::getStartTime).reversed())).toList();
+                        .reversed().thenComparing(FootballMatch::getId, Comparator.reverseOrder())).collect(Collectors.toList());
     }
 
 
