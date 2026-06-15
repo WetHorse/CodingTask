@@ -22,6 +22,23 @@ public class ScoreBoardService {
     }
 
     public FootballMatch startFootballMatch(String homeTeam, String awayTeam) {
+
+        if (homeTeam == null) {
+            throw new IllegalArgumentException("Home Team cannot be null");
+        }
+        if (awayTeam == null) {
+            throw new IllegalArgumentException("Away Team cannot be null");
+        }
+        if (homeTeam.trim().isEmpty()) {
+            throw new IllegalArgumentException("Home Team cannot be empty");
+        }
+        if (awayTeam.trim().isEmpty()) {
+            throw new IllegalArgumentException("Away Team cannot be empty");
+        }
+        if (homeTeam.equals(awayTeam)) {
+            throw new IllegalArgumentException("Home team and Away team must be different");
+        }
+
         if(footballMatchRepository.isFootballMatchExists(homeTeam, awayTeam)) {
             throw new IllegalArgumentException("Football match already exists with team " + homeTeam + " and team " + awayTeam);
         }
