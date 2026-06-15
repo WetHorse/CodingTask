@@ -39,5 +39,18 @@ public class FootballMatchRepository {
         return footballMatches.values().stream().filter(FootballMatch::isMatchActive).collect(Collectors.toList());
     }
 
+    public boolean isFootballMatchExists(String homeTeam, String awayTeam) {
+        return footballMatches.values().stream()
+                .anyMatch(footballMatch ->
+                        footballMatch.getHomeTeam().equalsIgnoreCase(homeTeam)
+                && footballMatch.getAwayTeam().equalsIgnoreCase(awayTeam));
+    }
+
+    public Optional<FootballMatch> getFootballMatchByTeams(String homeTeam, String awayTeam) {
+        return footballMatches.values().stream()
+                .filter(footballMatch ->
+                        footballMatch.getHomeTeam().equalsIgnoreCase(homeTeam)
+                && footballMatch.getAwayTeam().equalsIgnoreCase(awayTeam)).findFirst();
+    }
 
 }
